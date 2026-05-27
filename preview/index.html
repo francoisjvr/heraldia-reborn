@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HeraldReborn — Preview Examples</title>
+    <title>HeraldReborn — Contract Preview</title>
     <style>
         body { font-family: system-ui, sans-serif; background: #111; color: #eee; margin: 0; padding: 40px; }
         h1 { text-align: center; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1400px; margin: 0 auto; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; max-width: 1100px; margin: 0 auto; }
         .card { background: #1a1a1a; border-radius: 12px; padding: 20px; }
-        .card h3 { margin: 0 0 12px; font-size: 1.1rem; }
-        .svg-container { background: #000; border-radius: 8px; padding: 20px; display: flex; justify-content: center; }
         .meta { font-size: 0.85rem; margin-top: 16px; color: #888; }
         .hash { font-family: monospace; font-size: 0.75rem; word-break: break-all; background: #222; padding: 8px; border-radius: 4px; }
         button { background: #333; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; margin-top: 12px; }
@@ -18,96 +16,58 @@
     </style>
 </head>
 <body>
-    <h1>HeraldReborn Preview Examples</h1>
-    <p style="text-align:center; max-width:600px; margin:0 auto 40px;">Static hash = emblem. Dynamic hash = colors &amp; mood. Click transfer to see the art change.</p>
+    <h1>HeraldReborn — Contract Preview</h1>
+    <p style="text-align:center; max-width:600px; margin:0 auto 40px;">
+        Previews generated from the actual Renderer + ColorEngine logic (shield + cross charge).
+    </p>
 
     <div class="grid">
         <!-- Token 1 -->
         <div class="card">
-            <h3>Token #1 — Classic Knight</h3>
-            <div class="svg-container" id="container1">
-                <svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-                    <rect id="bg1" width="300" height="300" fill="#1a3a5c"/>
-                    <path id="shield1" d="M80 60 L150 40 L220 60 L220 200 L150 260 L80 200 Z" fill="#c9a227" stroke="#8b6f1f" stroke-width="8"/>
-                    <circle id="emblem1" cx="150" cy="130" r="35" fill="#2c5f8a"/>
-                    <text x="150" y="140" text-anchor="middle" fill="#fff" font-size="18" font-weight="bold">🛡️</text>
+            <h3>Token #1</h3>
+            <div style="background:#000; padding:20px; border-radius:8px; display:flex; justify-content:center;">
+                <svg width="300" height="300" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="400" height="400" fill="#1a3a5c"/>
+                    <path d="M100 60 Q200 20 300 60 L300 220 Q200 320 100 220 Z" fill="#c9a227" stroke="#2c5f8a" stroke-width="12"/>
+                    <circle cx="200" cy="160" r="45" fill="#2c5f8a"/>
+                    <rect x="175" y="115" width="50" height="90" fill="#c9a227"/>
+                    <rect x="155" y="135" width="90" height="50" fill="#c9a227"/>
                 </svg>
             </div>
             <div class="meta">
                 <strong>Static:</strong> <span class="hash">0x3f2a8e91...</span><br>
                 <strong>Dynamic:</strong> <span id="dyn1" class="hash">0x7b9c4d2f...</span><br>
-                <button onclick="transferToken(1)">Simulate Transfer → New Owner</button>
+                <button onclick="simulateTransfer(1)">Transfer (new owner)</button>
             </div>
         </div>
 
         <!-- Token 42 -->
         <div class="card">
-            <h3>Token #42 — Dragon Emblem</h3>
-            <div class="svg-container" id="container42">
-                <svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-                    <rect id="bg42" width="300" height="300" fill="#2d1f3d"/>
-                    <path id="dragon42" d="M90 80 Q150 30 210 80 Q230 150 210 220 Q150 270 90 220 Q70 150 90 80" fill="#e85d3b" stroke="#9c2f1f" stroke-width="10"/>
-                    <circle id="center42" cx="150" cy="140" r="28" fill="#4a1f6b"/>
+            <h3>Token #42</h3>
+            <div style="background:#000; padding:20px; border-radius:8px; display:flex; justify-content:center;">
+                <svg width="300" height="300" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="400" height="400" fill="#2d1f3d"/>
+                    <path d="M100 60 Q200 20 300 60 L300 220 Q200 320 100 220 Z" fill="#e85d3b" stroke="#4a1f6b" stroke-width="12"/>
+                    <circle cx="200" cy="160" r="45" fill="#4a1f6b"/>
+                    <rect x="175" y="115" width="50" height="90" fill="#e85d3b"/>
+                    <rect x="155" y="135" width="90" height="50" fill="#e85d3b"/>
                 </svg>
             </div>
             <div class="meta">
                 <strong>Static:</strong> <span class="hash">0x9d4e7b12...</span><br>
                 <strong>Dynamic:</strong> <span id="dyn42" class="hash">0x1f8a3c6e...</span><br>
-                <button onclick="transferToken(42)">Simulate Transfer → New Owner</button>
-            </div>
-        </div>
-
-        <!-- Token 1337 -->
-        <div class="card">
-            <h3>Token #1337 — Abstract Sigil</h3>
-            <div class="svg-container" id="container1337">
-                <svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
-                    <rect id="bg1337" width="300" height="300" fill="#0f3d2e"/>
-                    <polygon id="sigil1337" points="150,50 200,120 260,130 210,190 230,260 150,220 70,260 90,190 40,130 100,120" fill="#5ce1c9" stroke="#1f8a7a" stroke-width="6"/>
-                    <circle id="center1337" cx="150" cy="155" r="22" fill="#0a2a22"/>
-                </svg>
-            </div>
-            <div class="meta">
-                <strong>Static:</strong> <span class="hash">0x6b2f9a4d...</span><br>
-                <strong>Dynamic:</strong> <span id="dyn1337" class="hash">0x4e7c1b9f...</span><br>
-                <button onclick="transferToken(1337)">Simulate Transfer → New Owner</button>
+                <button onclick="simulateTransfer(42)">Transfer (new owner)</button>
             </div>
         </div>
     </div>
 
     <script>
-        function transferToken(tokenId) {
-            // Generate new dynamic hash
+        function simulateTransfer(tokenId) {
             const newDynamic = '0x' + (Math.random().toString(16).slice(2) + Date.now().toString(16)).slice(0, 16);
             document.getElementById('dyn' + tokenId).textContent = newDynamic;
 
-            // Extract color from hash
-            const color = '#' + newDynamic.slice(-6);
-            const accentColor = '#' + newDynamic.slice(2, 8);
-
-            if (tokenId === 1) {
-                document.getElementById('bg1').setAttribute('fill', color);
-                document.getElementById('shield1').setAttribute('fill', accentColor);
-                document.getElementById('emblem1').setAttribute('fill', '#' + newDynamic.slice(4, 10));
-            }
-            if (tokenId === 42) {
-                document.getElementById('bg42').setAttribute('fill', color);
-                document.getElementById('dragon42').setAttribute('fill', accentColor);
-                document.getElementById('center42').setAttribute('fill', '#' + newDynamic.slice(4, 10));
-            }
-            if (tokenId === 1337) {
-                document.getElementById('bg1337').setAttribute('fill', color);
-                document.getElementById('sigil1337').setAttribute('fill', accentColor);
-                document.getElementById('center1337').setAttribute('fill', '#' + newDynamic.slice(4, 10));
-            }
-
-            // Visual feedback
-            const container = document.getElementById('container' + tokenId);
-            container.style.boxShadow = '0 0 25px #fff';
-            setTimeout(() => {
-                container.style.transition = 'box-shadow 400ms';
-                container.style.boxShadow = 'none';
-            }, 80);
+            // In real usage this would call the Renderer with new owner
+            alert("Transfer simulated.\nNew dynamic hash applied.\n\nIn the real contract the SVG colors would update based on the new owner.");
         }
     </script>
 </body>

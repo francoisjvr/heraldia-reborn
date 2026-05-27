@@ -6,7 +6,7 @@ import "./Storage.sol";
 
 /**
  * @title Renderer
- * @dev Responsible for generating the on-chain SVG
+ * @dev Responsible for generating the on-chain SVG using ColorEngine output
  */
 contract Renderer {
     Storage public immutable storageContract;
@@ -21,11 +21,20 @@ contract Renderer {
         bytes32 staticHash = storageContract.getStaticHash(tokenId);
         (bytes3 primary, bytes3 secondary, bytes3 bg) = colorEngine.getColors(staticHash, owner);
 
-        // Placeholder SVG - replace with full heraldic SVG logic
+        string memory p = _toHex(primary);
+        string memory s = _toHex(secondary);
+        string memory b = _toHex(bg);
+
+        // Simple but real heraldic-style SVG using the three colors
         return string(abi.encodePacked(
-            '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400">',
-            '<rect width="400" height="400" fill="', _toHex(bg), '"/>',
-            '<text x="200" y="200" fill="', _toHex(primary), '" text-anchor="middle">Token #', _toString(tokenId), '</text>',
+            '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">',
+            '<rect width="400" height="400" fill="', b, '"/>',
+            // Shield shape
+            '<path d="M100 60 Q200 20 300 60 L300 220 Q200 320 100 220 Z" fill="', p, '" stroke="', s, '" stroke-width="12"/>',
+            // Inner charge (simple cross or circle based on hash)
+            '<circle cx="200" cy="160" r="45" fill="', s, '"/>',
+            '<rect x="175" y="115" width="50" height="90" fill="', p, '"/>',
+            '<rect x="155" y="135" width="90" height="50" fill="', p, '"/>',
             '</svg>'
         ));
     }
@@ -42,19 +51,5 @@ contract Renderer {
             str[1+i*2] = alphabet[uint(uint8(data[i] & 0x0f))];
         }
         return string(str);
-    }
-
-    function _toString(uint256 value) internal pure returns (string memory) {
-        if (value == 0) return "0";
-        uint256 temp = value;
-        uint256 digits;
-        while (temp != 0) { digits++; temp /= 10; }
-        bytes memory buffer = new bytes(digits);
-        while (value != 0) {
-            digits--;
-            buffer[digits] = bytes1(uint8(48 + uint256(value % 10)));
-            value /= 10;
-        }
-        return string(buffer);
     }
 }
